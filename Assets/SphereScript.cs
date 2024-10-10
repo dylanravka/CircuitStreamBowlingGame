@@ -14,6 +14,11 @@ public class SphereScript : MonoBehaviour
         rigidBody = GetComponent<Rigidbody>();
     }
 
+    public void CreateSphere(float radius)
+    {
+        //create the sphere
+    }
+
     // Update is called once per frame
     void Update()
     {

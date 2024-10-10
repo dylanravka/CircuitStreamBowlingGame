@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class BowlingBallSpawner : MonoBehaviour
 {
+    public SphereScript mySphereScript;
     public Animator arrowAnim;
     public GameObject[] bowlingBalls;
     public float speed;
 
     public float arrowSpeed = 1.0f;
-
-    private const float MAX_XPOS = 4.2f;
-
 
     private const string arrowAnimBallThrown = "WasBallThrown";
 
@@ -19,10 +17,20 @@ public class BowlingBallSpawner : MonoBehaviour
     {
         
     }
+
+    private void OnEnable()
+    {
+        
+    }
+    private void OnDisable()
+    {
+        
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("SPEED: " + speed);
+
     }
 
     // Update is called once per frame
@@ -43,21 +51,16 @@ public class BowlingBallSpawner : MonoBehaviour
 
         float localPosX = localpos.x;
 
-        float clampedLocalPosX = Mathf.Clamp(localPosX, -4.2f, 4.2f);
+    
 
-        Vector3 clampedPos = new Vector3(clampedLocalPosX, localpos.y, localpos.z);
-
-        Debug.Log("LOCAL POS: " + localpos + "   CLAMPED POS: " + clampedPos);
-
-        arrowAnim.transform.localPosition = clampedPos;
-
-       // arrowAnim.transform.localPosition = new Vector3(Mathf.Clamp(arrowAnim.transform.localPosition.x, -4.2f, 4.2f),
-       //     arrowAnim.transform.localPosition.y, arrowAnim.transform.localPosition.z);
+        arrowAnim.transform.localPosition = new Vector3(arrowAnim.transform.localPosition.x,
+            arrowAnim.transform.localPosition.y, arrowAnim.transform.localPosition.z);
 
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
             arrowAnim.SetBool(arrowAnimBallThrown, false);
+
 
             arrowAnim.SetBool("Aiming", true);
         }
