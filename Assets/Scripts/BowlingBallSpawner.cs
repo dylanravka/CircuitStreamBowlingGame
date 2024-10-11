@@ -13,6 +13,10 @@ public class BowlingBallSpawner : MonoBehaviour
 
     private const string arrowAnimBallThrown = "WasBallThrown";
 
+    public int numBallsThrownInCurrentFrame = 0;
+
+    public GameManager gameManager;
+
     private void Awake()
     {
         
@@ -31,6 +35,11 @@ public class BowlingBallSpawner : MonoBehaviour
     void Start()
     {
 
+    }
+
+    private void FixedUpdate()
+    {
+        
     }
 
     // Update is called once per frame
@@ -52,7 +61,6 @@ public class BowlingBallSpawner : MonoBehaviour
         float localPosX = localpos.x;
 
     
-
         arrowAnim.transform.localPosition = new Vector3(arrowAnim.transform.localPosition.x,
             arrowAnim.transform.localPosition.y, arrowAnim.transform.localPosition.z);
 
@@ -74,11 +82,17 @@ public class BowlingBallSpawner : MonoBehaviour
 
             Debug.Log("RANDOM NUM: " + randomNum);
 
-            GameObject ball = Instantiate(bowlingBalls[randomNum], arrowAnim.transform.position, transform.rotation);
+            GameObject ball = Instantiate(bowlingBalls[0], arrowAnim.transform.position, transform.rotation);
             if (ball.GetComponent<Rigidbody>() != null)
             {
-                ball.GetComponent<Rigidbody>().AddForce(arrowAnim.transform.forward * speed * Time.deltaTime, ForceMode.Impulse);
+                ball.GetComponent<Rigidbody>().AddForce(transform.forward * speed * Time.deltaTime, ForceMode.Impulse);
             }
+
+            numBallsThrownInCurrentFrame++;
+
+            
         }
     }
+
+
 }
