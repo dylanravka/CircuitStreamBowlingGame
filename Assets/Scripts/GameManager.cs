@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
 
     public Frame[] frames;
 
+    public UIManager uiManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,6 +50,12 @@ public class GameManager : MonoBehaviour
     public void AddScoreToFrame(int scoreToAdd)
     {
         Debug.Log("ADD " + scoreToAdd + " TO THE SCORE");
+
+        // Not necessary but easy to read.
+        int frameNumber = currentFrame;
+        int throwNumber = bowlingBallSpawner.numBallsThrownInCurrentFrame;
+
+        uiManager.SetThrowScore(frameNumber, throwNumber, scoreToAdd);
 
         CheckFrame(scoreToAdd);
     }
@@ -79,7 +87,11 @@ public class GameManager : MonoBehaviour
         {
             if (currentFrame > 1)
             {
-                if (frames[currentFrame - 2].isSpare)
+                if (frames[currentFrame - 2].isStrike)
+                {
+                    frames[currentFrame - 2].frameScore += scoreToAdd;
+                }
+                else if (frames[currentFrame - 2].isSpare)
                 {
                     frames[currentFrame - 2].frameScore += scoreToAdd;
                 }
@@ -94,6 +106,8 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     frames[currentFrame - 1].isStrike = true;
+                    // because bowlingBallSpawner.numBallsThrownInCurrentFrame == 1
+                    uiManager.SetThrowToStrike(currentFrame, 1);
                     NextFrame();
                 }
             }
@@ -105,7 +119,7 @@ public class GameManager : MonoBehaviour
             {
                 if (frames[currentFrame - 2].isStrike)
                 {
-                    frames[currentFrame - 2].frameScore += frames[currentFrame - 1].frameScore;
+                    frames[currentFrame - 2].frameScore += scoreToAdd;
                 }
             }
 
@@ -118,6 +132,8 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     frames[currentFrame - 1].isSpare = true;
+                    // because bowlingBallSpawner.numBallsThrownInCurrentFrame == 2
+                    uiManager.SetThrowToSpare(currentFrame, 2);
                     NextFrame();
                 }
             }
