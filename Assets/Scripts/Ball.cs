@@ -8,12 +8,23 @@ public class Ball : MonoBehaviour
 
     private int score = 0;
 
+    bool collidedWithPins = false;
 
+    private AudioSource audioSource;
+
+    public AudioClip strikeSound;
+
+    public AudioClip spareSound;
+
+    public AudioClip gutterSound;
+
+    int frameNum = 0;
 
     // Start is called before the first frame update
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -25,7 +36,14 @@ public class Ball : MonoBehaviour
             StopAllCoroutines();
             StartCoroutine(CheckPinsAfterDelay());
         }
-
+        else if (collision.gameObject.tag == "Pin")
+        {
+            if (!collidedWithPins)
+            {
+                audioSource.PlayOneShot(strikeSound);
+                collidedWithPins = true;
+            }
+        }
     }
 
     IEnumerator CheckPinsAfterDelay()

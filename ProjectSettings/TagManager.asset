@@ -9,6 +9,7 @@ TagManager:
   - Alley
   - PitFloor
   - PitWall
+  - Ball
   layers:
   - Default
   - TransparentFX
